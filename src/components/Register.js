@@ -44,7 +44,7 @@ const Register = ({ setRegisteredFaces }) => {
     const detections = await faceapi.detectSingleFace(videoRef.current).withFaceLandmarks().withFaceDescriptor();
   
     if (detections) {
-      const descriptor = Array.from(detections.descriptor); // Convert Float32Array to a regular array
+      const descriptor = Array.from(detections.descriptor);
   
       console.log('Sending data:', {
         username,
@@ -52,7 +52,6 @@ const Register = ({ setRegisteredFaces }) => {
       });
   
       try {
-        // Send the descriptor to the server along with the username
         const response = await axios.post('http://localhost:5000/api/register', {
           username,
           descriptor: [descriptor],

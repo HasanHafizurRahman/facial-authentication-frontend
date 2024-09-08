@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import * as faceapi from 'face-api.js';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Login = ({ onLogin }) => {
@@ -8,6 +9,7 @@ const Login = ({ onLogin }) => {
   const [modelsLoaded, setModelsLoaded] = useState(false);
   const [isAuthenticating, setIsAuthenticating] = useState(false);
   const [registeredFaces, setRegisteredFaces] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadModels = async () => {
@@ -56,7 +58,7 @@ const Login = ({ onLogin }) => {
       const labeledFaceDescriptors = registeredFaces.map(f => {
         if (typeof f.name === 'string' &&
             Array.isArray(f.descriptor) &&
-            f.descriptor.length === 1 && // Ensure there's only one inner array
+            f.descriptor.length === 1 && 
             Array.isArray(f.descriptor[0]) &&
             f.descriptor[0].every(num => typeof num === 'number')) {
           
@@ -76,6 +78,7 @@ const Login = ({ onLogin }) => {
   
         if (match.label !== 'unknown') {
           toast.success(`Logged in as ${match.label}`, { position: 'top-right' });
+          navigate('/user', { state: { username: match.label } });
           onLogin(match.label);
         } else {
           toast.error('Face not recognized. Please try again.', { position: 'top-right' });
