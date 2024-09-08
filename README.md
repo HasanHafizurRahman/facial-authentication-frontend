@@ -1,70 +1,85 @@
-# Getting Started with Create React App
+# Facial Recognition Authentication System (Frontend)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is the **frontend** of a facial recognition-based authentication system built with **React.js** and **face-api.js**. The application allows users to register and log in using facial recognition, providing a secure and modern method of authentication.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **Face Registration**: Users can register by scanning their faces.
+- **Face Login**: Users can log in using facial recognition.
+- **Dynamic Navigation**: Upon successful login, the navigation bar dynamically updates to show the logged-in user's name.
+- **User Profile**: After login, users are redirected to a `/user` route where their name is displayed along with placeholder content.
+- **Real-time Face Detection**: Utilizes `face-api.js` for accurate face detection and matching.
+- **React Toast Notifications**: Provides real-time feedback using `react-toastify`.
 
-### `npm start`
+## Tech Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Frontend**: React.js
+- **Face Recognition**: `face-api.js`
+- **Styling**: Tailwind CSS for responsive UI components
+- **Notifications**: `react-toastify` for alert messages
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Installation
 
-### `npm test`
+### Prerequisites
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Ensure you have **Node.js** installed on your machine.
 
-### `npm run build`
+### Steps
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Clone this repository and navigate to the `frontend` folder:
+   ```bash
+   git clone <repository-url>
+   cd frontend
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. Start the development server:
+   ```bash
+   npm start
+   ```
 
-### `npm run eject`
+   The app will run on `http://localhost:3000`.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+4. Ensure you have the models required for `face-api.js`:
+   - Download the models (ssdMobilenetv1, faceLandmark68Net, faceRecognitionNet) and place them in a `/public/models` directory.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Project Structure
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```bash
+├── public
+│   ├── models          # Pre-trained face-api.js models
+│   └── index.html
+├── src
+│   ├── components
+│   │   ├── Login.js    # Facial recognition login component
+│   │   ├── Register.js # Facial registration component
+│   │   ├── User.js     # User profile component
+│   │   └── Nav.js      # Navigation bar component
+│   ├── App.js          # Main application component
+│   └── index.js        # Entry point
+└── package.json
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Usage
 
-## Learn More
+1. **Register**: Visit the `/` (Register) route to register your face.
+2. **Login**: Go to the `/login` route to log in with your face.
+3. **User Profile**: Upon successful login, you'll be redirected to the `/user` page where your name will be displayed along with some dummy user content.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Future Improvements
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- **Mobile Optimization**: Enhance the UI and face detection to work seamlessly on mobile devices.
+- **Face Descriptor Encryption**: Securely encrypt facial descriptors before sending them to the backend.
+- **Persistent Login**: Implement local storage or cookies to persist the login session.
 
-### Code Splitting
+## License
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+This project is licensed under the MIT License. Feel free to modify and use it for your own purposes.
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This README provides clear instructions for setting up and running the frontend part of the facial recognition-based authentication system.
