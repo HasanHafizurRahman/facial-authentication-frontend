@@ -3,7 +3,7 @@ import * as faceapi from 'face-api.js';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 
-const Login = () => {
+const Login = ({ onLogin }) => {
   const videoRef = useRef(null);
   const [modelsLoaded, setModelsLoaded] = useState(false);
   const [isAuthenticating, setIsAuthenticating] = useState(false);
@@ -76,6 +76,7 @@ const Login = () => {
   
         if (match.label !== 'unknown') {
           toast.success(`Logged in as ${match.label}`, { position: 'top-right' });
+          onLogin(match.label);
         } else {
           toast.error('Face not recognized. Please try again.', { position: 'top-right' });
         }

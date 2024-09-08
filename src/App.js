@@ -1,29 +1,32 @@
+// App.js
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Register from './components/Register';
 import Login from './components/Login';
+import User from './components/User';
+import Nav from './components/Nav';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
-  const [registeredFaces, setRegisteredFaces] = useState([]); 
+  const [userName, setUserName] = useState('');
+
+  const handleLogin = (name) => {
+    setUserName(name);
+  };
+
+  const handleLogout = () => {
+    setUserName('');
+  };
 
   return (
     <Router>
       <div className="min-h-screen bg-gray-100">
-        <nav className="p-4 bg-white shadow flex justify-center">
-        <Link to="/" className="mr-8 font-medium text-blue-500 hover:text-blue-700">Register</Link>
-        <Link to="/login" className="font-medium text-blue-500 hover:text-blue-700">Login</Link>
-        </nav>
+        <Nav userName={userName} onLogout={handleLogout} />
         <Routes>
-          <Route
-            path="/"
-            element={<Register registeredFaces={registeredFaces} setRegisteredFaces={setRegisteredFaces} />}
-          />
-          <Route
-            path="/login"
-            element={<Login registeredFaces={registeredFaces} />}
-          />
+          <Route path="/" element={<Register onRegister={handleLogin} />} />
+          <Route path="/login" element={<Login onLogin={handleLogin} />} />
+          <Route path="/user" element={<User />} />
         </Routes>
         <ToastContainer position="top-right" autoClose={3000} />
       </div>
@@ -32,4 +35,3 @@ function App() {
 }
 
 export default App;
-
