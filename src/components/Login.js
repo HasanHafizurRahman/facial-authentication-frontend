@@ -37,11 +37,12 @@ const Login = () => {
   const fetchRegisteredFaces = async () => {
     try {
       const response = await axios.get('http://localhost:5000/api/faces');
-      setRegisteredFaces(response.data); // Set registered faces from the server
+      console.log('Fetched faces:', response.data);
+      setRegisteredFaces(response.data);
     } catch (err) {
       toast.error('Error fetching registered faces.', { position: 'top-right' });
     }
-  };
+  };  
 
   useEffect(() => {
     fetchRegisteredFaces();
@@ -50,22 +51,44 @@ const Login = () => {
   const handleLoginFace = async () => {
     setIsAuthenticating(true);
     const detections = await faceapi.detectSingleFace(videoRef.current).withFaceLandmarks().withFaceDescriptor();
-
+  
     if (detections && registeredFaces.length > 0) {
-      const faceMatcher = new faceapi.FaceMatcher(registeredFaces.map(f => new faceapi.LabeledFaceDescriptors(f.username, [new Float32Array(f.descriptor)])), 0.6);
-      const match = faceMatcher.findBestMatch(detections.descriptor);
-
-      if (match.label !== 'unknown') {
-        toast.success(`Logged in as ${match.label}`, { position: 'top-right' });
+      const labeledFaceDescriptors = registeredFaces.map(f => {
+        if (typeof f.name === 'string' &&
+            Array.isArray(f.descriptor) &&
+            f.descriptor.length === 1 && // Ensure there's only one inner array
+            Array.isArray(f.descriptor[0]) &&
+            f.descriptor[0].every(num => typeof num === 'number')) {
+          
+          // Flatten the descriptor array
+          const descriptorArray = new Float32Array(f.descriptor[0]);
+  
+          return new faceapi.LabeledFaceDescriptors(f.name, [descriptorArray]);
+        } else {
+          console.error('Invalid face data:', f);
+          return null;
+        }
+      }).filter(descriptor => descriptor !== null);
+  
+      if (labeledFaceDescriptors.length > 0) {
+        const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.6);
+        const match = faceMatcher.findBestMatch(detections.descriptor);
+  
+        if (match.label !== 'unknown') {
+          toast.success(`Logged in as ${match.label}`, { position: 'top-right' });
+        } else {
+          toast.error('Face not recognized. Please try again.', { position: 'top-right' });
+        }
       } else {
-        toast.error('Face not recognized. Please try again.', { position: 'top-right' });
+        toast.error('No valid face descriptors found. Please try again.', { position: 'top-right' });
       }
     } else {
       toast.error('No face detected. Please try again.', { position: 'top-right' });
     }
-
+  
     setIsAuthenticating(false);
   };
+  
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
