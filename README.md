@@ -79,7 +79,3 @@ Ensure you have **Node.js** installed on your machine.
 ## License
 
 This project is licensed under the MIT License. Feel free to modify and use it for your own purposes.
-
----
-
-This README provides clear instructions for setting up and running the frontend part of the facial recognition-based authentication system.
